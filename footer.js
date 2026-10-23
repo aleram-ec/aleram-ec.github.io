@@ -38,15 +38,15 @@
               <a href="/#servicios">Servicios</a>
               <a href="/#aliados">Aliados</a>
               <a href="/#contacto">Contacto</a>
-              <a href="tarjeta.html">Tarjeta Digital</a>
+              <a href="tarjeta">Tarjeta Digital</a>
             </nav>
           </div>
           <div>
             <div class="footer-col-title">Legal</div>
             <nav class="footer-links" aria-label="Páginas legales">
-              <a href="terminos.html">Términos y Condiciones</a>
-              <a href="privacidad.html">Política de Privacidad</a>
-              <a href="cookies.html">Política de Cookies</a>
+              <a href="terminos">Términos y Condiciones</a>
+              <a href="privacidad">Política de Privacidad</a>
+              <a href="cookies">Política de Cookies</a>
             </nav>
           </div>
         </div>

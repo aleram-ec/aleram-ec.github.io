@@ -58,7 +58,7 @@
         ${navLinks.map(link => `
           <li><a href="${link.href}">${link.label}</a></li>
         `).join('')}
-        <li><a href="tarjeta.html" class="nav-cta" id="nav-tarjeta-btn">Ver Tarjeta Digital</a></li>
+        <li><a href="tarjeta" class="nav-cta" id="nav-tarjeta-btn">Ver Tarjeta Digital</a></li>
       </ul>
       <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -76,7 +76,7 @@
       ${navLinks.map(link => `
         <a href="${link.href}" class="mobile-link">${link.label}</a>
       `).join('')}
-      <a href="tarjeta.html" class="nav-cta" style="display:inline-block;text-align:center;color:#080e1a!important;">Ver Tarjeta Digital</a>
+      <a href="tarjeta" class="nav-cta" style="display:inline-block;text-align:center;color:#080e1a!important;">Ver Tarjeta Digital</a>
       <div class="mobile-socials">
         <a href="https://wa.me/593983201691?text=Hola%2C%20quiero%20una%20consulta%20legal." target="_blank" rel="noopener" aria-label="WhatsApp"><i data-lucide="message-circle" style="width:20px;height:20px;"></i></a>
         <a href="mailto:jyepezlexis@gmail.com" aria-label="Correo electrónico"><i data-lucide="mail" style="width:20px;height:20px;"></i></a>
