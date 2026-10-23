@@ -14,76 +14,66 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root { --gold: #d4af37; --bg: #080e1a; --text: #f1f5f9; --muted: #94a3b8; }
-        html, body { height: 100%; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; text-align: center; padding: 2rem; }
+        html { min-height: 100%; background: var(--bg); }
+        body { min-height: 100vh; min-height: 100svh; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; overflow-x: hidden; text-align: center; }
 
         /* Animated background */
-        .bg-radial { position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(212,175,55,0.07) 0%, transparent 60%), linear-gradient(180deg, #080e1a 0%, #0b1525 100%); z-index: 0; }
-        .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; }
+        .bg-radial { position: fixed; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(212,175,55,0.09) 0%, transparent 58%), linear-gradient(180deg, #080e1a 0%, #0b1525 100%); z-index: 0; pointer-events: none; }
+        .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(rgba(212,175,55,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.025) 1px, transparent 1px); background-size: 64px 64px; z-index: 0; pointer-events: none; mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 80%, transparent); }
 
         /* Floating particles */
-        .particle { position: fixed; width: 2px; height: 2px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 0; animation: floatUp linear infinite; opacity: 0; }
-        @keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.3; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0; } }
-
-        .content { position: relative; z-index: 1; max-width: 600px; }
+        .error-main { position: relative; z-index: 1; flex: 1; width: 100%; display: grid; place-items: center; padding: 112px 1.5rem 4rem; }
+        .content { width: min(100%, 720px); padding: clamp(2rem, 6vw, 4.25rem); border: 1px solid rgba(212,175,55,0.2); border-radius: 28px; background: linear-gradient(145deg, rgba(18,29,48,0.92), rgba(10,18,32,0.88)); box-shadow: 0 28px 90px rgba(0,0,0,0.38), inset 0 1px rgba(255,255,255,0.04); }
+        .error-label { display: inline-flex; align-items: center; gap: 0.55rem; color: #e5cb73; border: 1px solid rgba(212,175,55,0.25); background: rgba(212,175,55,0.07); border-radius: 99px; padding: 0.5rem 0.9rem; margin-bottom: 1rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+        .error-label i { display: inline-flex; }
 
         /* 404 Number */
-        .num-404 { font-family: 'Cinzel', serif; font-size: clamp(7rem, 20vw, 12rem); font-weight: 700; line-height: 1; letter-spacing: -0.04em; background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 30%, #b38728 60%, #fbf5b7 80%, #aa771c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glowPulse 3s ease-in-out infinite; position: relative; display: inline-block; }
-        @keyframes glowPulse { 0%, 100% { filter: drop-shadow(0 0 20px rgba(212,175,55,0.4)); } 50% { filter: drop-shadow(0 0 50px rgba(212,175,55,0.7)); } }
+        .num-404 { font-family: 'Cinzel', serif; font-size: clamp(6rem, 19vw, 10rem); font-weight: 700; line-height: 0.95; letter-spacing: -0.055em; background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 32%, #b38728 68%, #fbf5b7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 8px 28px rgba(212,175,55,0.16)); }
 
         /* Scale icon */
-        .icon-wrap { margin: 0.5rem 0 1.5rem; }
-        .icon-wrap svg { width: 48px; height: 48px; color: var(--gold); opacity: 0.7; animation: rotateSlow 12s linear infinite; }
-        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .icon-wrap { display: none; }
 
-        .err-title { font-family: 'Cinzel', serif; font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 600; color: var(--text); margin-bottom: 0.75rem; }
-        .err-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; max-width: 440px; margin-left: auto; margin-right: auto; }
+        .err-title { font-family: 'Cinzel', serif; font-size: clamp(1.45rem, 3.5vw, 2.1rem); font-weight: 600; color: var(--text); margin: 0.45rem 0 0.85rem; }
+        .err-desc { font-size: 0.96rem; color: var(--muted); line-height: 1.8; margin: 0 auto 2rem; max-width: 470px; }
 
-        .btn-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn-gold { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #bf953f, #d4af37, #aa771c); color: #080e1a; font-weight: 700; font-size: 0.9rem; padding: 0.8rem 1.75rem; border-radius: 50px; text-decoration: none; transition: all 0.3s; box-shadow: 0 6px 25px rgba(212,175,55,0.35); }
-        .btn-gold:hover { box-shadow: 0 8px 35px rgba(212,175,55,0.55); transform: translateY(-2px); }
-        .btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--text); font-weight: 600; font-size: 0.9rem; padding: 0.8rem 1.75rem; border-radius: 50px; text-decoration: none; border: 1.5px solid rgba(255,255,255,0.2); transition: all 0.3s; }
-        .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+        .btn-group { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
+        .btn-gold, .btn-outline { min-height: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; font-weight: 700; font-size: 0.88rem; padding: 0.8rem 1.35rem; border-radius: 50px; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+        .btn-gold { background: linear-gradient(135deg, #bf953f, #d4af37, #aa771c); color: #080e1a; box-shadow: 0 6px 25px rgba(212,175,55,0.25); }
+        .btn-gold:hover { box-shadow: 0 8px 30px rgba(212,175,55,0.42); transform: translateY(-2px); }
+        .btn-outline { background: rgba(255,255,255,0.025); color: var(--text); border: 1px solid rgba(255,255,255,0.18); }
+        .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+        .btn-gold:focus-visible, .btn-outline:focus-visible, .quick-links a:focus-visible { outline: 2px solid #f0d060; outline-offset: 4px; }
 
         /* Quick links */
-        .quick-links { margin-top: 3rem; display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
-        .quick-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.3s; display: flex; align-items: center; gap: 0.3rem; }
+        .quick-links { margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+        .quick-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; transition: color 0.3s; display: flex; align-items: center; gap: 0.4rem; }
         .quick-links a:hover { color: var(--gold); }
 
-        /* Footer */
-        footer { background: #05080f; border-top: 1px solid rgba(212,175,55,0.12); padding: 3rem 1.5rem 1.5rem; width: 100%; margin-top: 3rem; }
-        .footer-inner { max-width: 1100px; margin: 0 auto; }
-        .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
-        .footer-brand-mark { display: inline-flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 12px; background: linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.05)); border: 1px solid rgba(212,175,55,0.35); color: var(--gold); font-family: 'Cinzel', serif; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; }
-        .footer-brand-name { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 600; margin-top: 0.75rem; margin-bottom: 0.5rem; }
-        .footer-brand-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; max-width: 300px; }
-        .footer-col-title { font-size: 0.75rem; font-weight: 700; color: var(--gold); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
-        .footer-links { display: flex; flex-direction: column; gap: 0.6rem; }
-        .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; transition: color 0.3s; }
-        .footer-links a:hover { color: var(--gold); }
-        .footer-bottom { padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; text-align: center; }
-        .footer-bottom p { width: 100%; font-size: 0.8rem; color: var(--muted); margin: 0; }
-        @media (max-width: 768px) { .footer-top { grid-template-columns: 1fr; gap: 2rem; } .footer-bottom { flex-direction: column; align-items: center; } }
-
-        /* Countdown back */
-        .auto-redirect { margin-top: 2rem; font-size: 0.8rem; color: var(--muted); }
-        .auto-redirect span { color: var(--gold); font-weight: 600; }
+        @media (max-width: 560px) {
+            .error-main { padding: 96px 1rem 2.5rem; }
+            .content { padding: 2.25rem 1.25rem; border-radius: 22px; }
+            .num-404 { font-size: clamp(5.5rem, 27vw, 8rem); }
+            .err-desc { font-size: 0.9rem; margin-bottom: 1.5rem; }
+            .btn-group { flex-direction: column; }
+            .btn-group a { width: 100%; }
+            .quick-links { gap: 0.85rem 1.2rem; margin-top: 1.5rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; } }
     </style>
 </head>
 <body>
     <div class="bg-radial" aria-hidden="true"></div>
     <div class="grid-bg" aria-hidden="true"></div>
 
-    <div class="content" role="main">
+    <div id="navbar-root"></div>
+
+    <main class="error-main">
+      <section class="content" aria-labelledby="error-title">
+        <div class="error-label"><i data-lucide="scale" style="width:15px;height:15px;"></i> Error del sitio</div>
         <div class="num-404" aria-label="Error 404">404</div>
-
-        <div class="icon-wrap" aria-hidden="true">
-            <i data-lucide="scale"></i>
-        </div>
-
-        <h1 class="err-title">Página no encontrada</h1>
+        <h1 class="err-title" id="error-title">Página no encontrada</h1>
         <p class="err-desc">
-            El recurso que buscas no existe o ha sido movido. Pero EJ - Estudio Jurídico sigue disponible para brindarte asesoría legal de calidad.
+            El enlace puede estar desactualizado o la página ya no existe. Puedes volver al inicio o visitar nuestra tarjeta digital.
         </p>
 
         <div class="btn-group">
@@ -103,65 +93,15 @@
             <a href="https://wa.me/593983201691" target="_blank" rel="noopener" id="link-wa"><i data-lucide="message-circle" style="width:13px;height:13px;"></i> WhatsApp</a>
         </nav>
 
-        <p class="auto-redirect">Redirigiendo al inicio en <span id="countdown">10</span> segundos...</p>
-    </div>
+      </section>
+    </main>
 
-    <footer role="contentinfo">
-        <div class="footer-inner">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <div class="footer-brand-mark">EJ</div>
-                    <div class="footer-brand-name gold-text">EJ - Estudio Jurídico</div>
-                    <p class="footer-brand-desc">Asesoría legal especializada en Quito y zona norte del Ecuador. Atención directa, ética y comprometida. Propiedad: aleram-ec.</p>
-                </div>
-                <div class="footer-col">
-                    <div class="footer-col-title">Navegación</div>
-                    <nav class="footer-links" aria-label="Navegación del pie de página">
-                        <a href="index.html">Inicio</a>
-                        <a href="index.html#servicios">Servicios</a>
-                        <a href="index.html#aliados">Aliados</a>
-                        <a href="index.html#contacto">Contacto</a>
-                        <a href="tarjeta.html">Tarjeta Digital</a>
-                    </nav>
-                </div>
-                <div class="footer-col">
-                    <div class="footer-col-title">Legal</div>
-                    <nav class="footer-links" aria-label="Páginas legales">
-                        <a href="terminos.html">Términos y Condiciones</a>
-                        <a href="privacidad.html">Política de Privacidad</a>
-                        <a href="cookies.html">Política de Cookies</a>
-                    </nav>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>© <span id="footer-year"></span> aleram-ec | EJ - Estudio Jurídico. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-root"></div>
 
+    <script src="navbar.js"></script>
+    <script src="footer.js"></script>
     <script>
-        document.getElementById('footer-year').textContent = new Date().getFullYear();
         lucide.createIcons();
-
-        // Particles
-        for (let i = 0; i < 20; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            p.style.cssText = `left:${Math.random()*100}%;animation-delay:${Math.random()*8}s;animation-duration:${8+Math.random()*8}s;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;`;
-            document.body.appendChild(p);
-        }
-
-        // Countdown redirect
-        let t = 10;
-        const cd = document.getElementById('countdown');
-        const interval = setInterval(() => {
-            t--;
-            cd.textContent = t;
-            if (t <= 0) { clearInterval(interval); window.location.href = 'index.html'; }
-        }, 1000);
-
-        // Cancel redirect on interaction
-        document.addEventListener('click', () => clearInterval(interval), { once: true });
     </script>
 </body>
 </html>
