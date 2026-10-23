@@ -34,10 +34,10 @@
           <div>
             <div class="footer-col-title">Navegación</div>
             <nav class="footer-links" aria-label="Navegación del pie de página">
-              <a href="index.html">Inicio</a>
-              <a href="index.html#servicios">Servicios</a>
-              <a href="index.html#aliados">Aliados</a>
-              <a href="index.html#contacto">Contacto</a>
+              <a href="/">Inicio</a>
+              <a href="/#servicios">Servicios</a>
+              <a href="/#aliados">Aliados</a>
+              <a href="/#contacto">Contacto</a>
               <a href="tarjeta.html">Tarjeta Digital</a>
             </nav>
           </div>

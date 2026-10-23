@@ -39,18 +39,18 @@
   if (!mountNode) return;
 
   const currentPath = window.location.pathname.replace(/\\/g, '/');
-  const isHomePage = currentPath === '/' || currentPath.endsWith('/index.html') || currentPath === '';
+  const isHomePage = currentPath === '/' || currentPath.endsWith('//') || currentPath === '';
 
   const navLinks = [
-    { label: 'Inicio', href: isHomePage ? '#inicio' : 'index.html#inicio' },
-    { label: 'Servicios', href: isHomePage ? '#servicios' : 'index.html#servicios' },
-    { label: 'Aliados', href: isHomePage ? '#aliados' : 'index.html#aliados' },
-    { label: 'Contacto', href: isHomePage ? '#contacto' : 'index.html#contacto' }
+    { label: 'Inicio', href: isHomePage ? '#inicio' : '/#inicio' },
+    { label: 'Servicios', href: isHomePage ? '#servicios' : '/#servicios' },
+    { label: 'Aliados', href: isHomePage ? '#aliados' : '/#aliados' },
+    { label: 'Contacto', href: isHomePage ? '#contacto' : '/#contacto' }
   ];
 
   mountNode.innerHTML = `
     <nav id="navbar" role="navigation" aria-label="Navegación principal">
-      <a href="${isHomePage ? '#inicio' : 'index.html'}" class="nav-logo" aria-label="Ir al inicio">
+      <a href="${isHomePage ? '#inicio' : '/'}" class="nav-logo" aria-label="Ir al inicio">
         <span class="nav-logo-mark">EJ</span>
         <span class="nav-logo-text gold-text">EJ - Estudio Jurídico</span>
       </a>
